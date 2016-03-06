@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("bkg.jpg");
+		img = new Texture("Background.jpg");
 		fly = new Texture("SpaceShipSmall.png");
 	}
 
@@ -25,8 +25,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.2f, .3f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.draw(fly, 44+n, 77);
+		batch.draw(img, -500, 0);
+		batch.draw(fly, 500+n, 77);
 		batch.end();
 
 		Update();
