@@ -17,7 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("bkg.jpg");
-		fly = new Texture("fly.png");
+		fly = new Texture("SpaceShipSmall.png");
 	}
 
 	@Override
