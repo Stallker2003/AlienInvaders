@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
  * Класс инопланетянских кораблей. Двигаются все разом 3/7/2016.
  */
 public class AlienShip extends StarShip{
-    AlienShip(int health, int x, int y, Texture img){
-        super(health,x,y,img);
+    AlienShip(int health, int x, int y, Texture img,Integer pos){
+        super(health,x,y,img,pos);
     }
 
     private static double deltaX = 0;

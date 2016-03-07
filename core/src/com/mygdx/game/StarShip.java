@@ -11,24 +11,87 @@ public class StarShip {
     int y;
     int width;
     int height;
+    int destX;
+    int destY;
+    double acceleration;
+    double speedX;
+    double speedY;
+    Integer formationPos;
     Texture img;
 
-    public StarShip(int health, int x, int y, Texture img) {
+    public StarShip(int health, int x, int y, Texture img, Integer pos) {
         this.health = health;
         this.x = x;
         this.y = y;
         this.img = img;
         this.width =  img.getWidth();
         this.health = img.getHeight();
+
+        this.formationPos = pos;
+        this.acceleration = 50;
+        this.destX = x;
+        this.destY = y;
     }
 
     public StarShip(int health, int x, int y) {
-        this.health = health;
-        this.x = x;
-        this.y = y;
-        this.img =  new Texture("SpaceShipSmall.png");
-        this.width =  img.getWidth();
-        this.health = img.getHeight();
+        this(health, x, y, new Texture("SpaceShipSmall.png"),null);
+    }
+
+    public void move(){ move(0.1);}
+
+    public void move(double time){
+        double distX;
+        double distY;
+
+        distX = getX() - destX;
+        distY = getY() - destY;
+
+        double max_acceleration = time * acceleration;
+
+        speedX = calculateAcceleration(distX,max_acceleration);
+        speedY = calculateAcceleration(distY,max_acceleration);
+
+        //System.out.println( "Dest [" + destX + "," + destY +  "] Pos [" + getX() + "," + getY() + "] Dist [" + distX + "," + distY + "] Speed [" + speedX + "," + speedY + "]" );
+        setX(getX() + (int)speedX);
+        setY(getY() + (int)speedY);
+    }
+
+    public double calculateAcceleration(double dist, double maxAcceleration){
+        double minAcceleration = Math.abs(dist);
+        if(dist == 0){
+            return 0;
+        }
+        if (Math.abs(dist) > maxAcceleration){
+            if(dist > 0) return -maxAcceleration;
+            else return  +maxAcceleration;
+        }
+
+        if(dist > 0) return -minAcceleration;
+        else return  +minAcceleration;
+    }
+
+    public Integer getFormationPos() {
+        return formationPos;
+    }
+
+    public void setFormationPos(Integer formationPos) {
+        this.formationPos = formationPos;
+    }
+
+    public int getDestX() {
+        return destX;
+    }
+
+    public void setDestX(int destX) {
+        this.destX = destX;
+    }
+
+    public int getDestY() {
+        return destY;
+    }
+
+    public void setDestY(int destY) {
+        this.destY = destY;
     }
 
     public int getHealth() {
