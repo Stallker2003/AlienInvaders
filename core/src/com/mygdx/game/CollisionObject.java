@@ -25,9 +25,9 @@ public abstract class CollisionObject {
 
     abstract public double getY();
 
-    abstract public int getHealth();
+    abstract public double getHealth();
 
-    abstract public int setHealth(int height);
+    abstract public void setHealth(double health);
 
     public boolean isAlive() {
         return isAlive;
@@ -39,7 +39,7 @@ public abstract class CollisionObject {
 
     public void onCollision(double healthImpact) {
         if(this.getHealth() > healthImpact){
-            this.setHealth(this.getHealth() - (int)healthImpact);
+            this.setHealth(this.getHealth() - healthImpact);
         } else {
             this.setIsAlive(false);
         }

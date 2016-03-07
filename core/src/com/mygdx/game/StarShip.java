@@ -5,21 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * Класс кораблей. В будушем и корабаль пользователя.
  */
-public class StarShip {
-    int health;
-    int x;
-    int y;
-    int width;
-    int height;
-    int destX;
-    int destY;
+public class StarShip extends CollisionObject{
+    double health;
+    double x;
+    double y;
+    double width;
+    double height;
+    double destX;
+    double destY;
     double acceleration;
     double speedX;
     double speedY;
     Integer formationPos;
     Texture img;
 
-    public StarShip(int health, int x, int y, Texture img, Integer pos) {
+    public StarShip(double health, double x, double y, Texture img, Integer pos) {
+        super(img.getWidth(),img.getHeight());
         this.health = health;
         this.x = x;
         this.y = y;
@@ -33,7 +34,7 @@ public class StarShip {
         this.destY = y;
     }
 
-    public StarShip(int health, int x, int y) {
+    public StarShip(double health, double x, double y) {
         this(health, x, y, new Texture("SpaceShipSmall.png"),null);
     }
 
@@ -52,8 +53,8 @@ public class StarShip {
         speedY = calculateAcceleration(distY,max_acceleration);
 
         //System.out.println( "Dest [" + destX + "," + destY +  "] Pos [" + getX() + "," + getY() + "] Dist [" + distX + "," + distY + "] Speed [" + speedX + "," + speedY + "]" );
-        setX(getX() + (int)speedX);
-        setY(getY() + (int)speedY);
+        setX(getX() + speedX);
+        setY(getY() + speedY);
     }
 
     public double calculateAcceleration(double dist, double maxAcceleration){
@@ -78,59 +79,61 @@ public class StarShip {
         this.formationPos = formationPos;
     }
 
-    public int getDestX() {
+    public double getDestX() {
         return destX;
     }
 
-    public void setDestX(int destX) {
+    public void setDestX(double destX) {
         this.destX = destX;
     }
 
-    public int getDestY() {
+    public double getDestY() {
         return destY;
     }
 
-    public void setDestY(int destY) {
+    public void setDestY(double destY) {
         this.destY = destY;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(double health) {
         this.health = health;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+
+    public void setY(double y) {
         this.y = y;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 

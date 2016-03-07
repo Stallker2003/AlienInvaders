@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture img;
 	Texture alienImg;
 	int round = 0;
-	MapManager mapManager = new MapManager();
+	MapManager mapManager = MapManager.getManeger();
 	static long lastShot = 0;//для таймера
 	AlienFormation alienFormation = new AlienFormation();
 
@@ -30,13 +30,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		alienImg = new Texture("AlienShipSmall.png");
 
 		starShip = new StarShip(10, 0, 0);
-		mapManager.add(starShip);
+		mapManager.addShip(starShip);
 
-		Bullet.Start();//!!это мне не нравиться тут
+		FireLuncher.Start();//!!это мне не нравиться тут
 
 		for(int i = 0 ; i < alienFormation.getMax() ;i++) {
 			Point point = alienFormation.getFormation(i);
-			mapManager.add(new AlienShip(50, (int)point.getX() ,(int)point.getY() ,alienImg,i));
+			mapManager.addShip(new AlienShip(50, (int)point.getX() ,(int)point.getY() ,alienImg,i));
 		}
 	}
 
@@ -47,19 +47,19 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(img, -500, 0);
 
-		Iterator<StarShip> iterator = mapManager.iterator();//?
+		Iterator<StarShip> iterator = mapManager.shipIterator();
 
 		while (iterator.hasNext()){
 			StarShip alien = iterator.next();
-			batch.draw(alien.getImg(),alien.getX(),alien.getY());
+			batch.draw(alien.getImg(),(int)alien.getX(),(int)alien.getY());
 		}
 
-		Bullet.DrawBullets(batch);//!!это мне не нравиться тут
+		FireLuncher.DrawBullets(batch);//!!это мне не нравиться тут
 
 		batch.end();
 
 		Update();
-		Bullet.Update();//!!это мне не нравиться тут + как насчет разной производительности ПК? Вопрос -пстоянны ли ФПС
+		FireLuncher.Update();//!!это мне не нравиться тут + как насчет разной производительности ПК? Вопрос -пстоянны ли ФПС
 
 	}
 
@@ -69,7 +69,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) ) && (T  > lastShot + 100))
 		{
-			Bullet.shot();
+			FireLuncher.shot();
 			lastShot=T;
 		}
 	}
@@ -81,7 +81,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Shoot();
 
-		Iterator<StarShip> iterator = mapManager.iterator();//?
+		Iterator<StarShip> iterator = mapManager.shipIterator();
 		while (iterator.hasNext()){
 			StarShip alien = iterator.next();
 			Integer pos = alien.getFormationPos();

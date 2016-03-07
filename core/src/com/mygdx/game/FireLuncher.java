@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.utils.TimeUtils;
 //import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.util.ArrayList;
@@ -13,15 +10,15 @@ import java.util.Stack;
 /**
  * Этот класс управляет созданием пуль
  */
-public class Bullet {
-    static java.util.Stack<Bullet> bulletPool;//Это для неактивных
-    static ArrayList<Bullet> activBullets = new ArrayList<Bullet>();
+public class FireLuncher {
+    static java.util.Stack<FireLuncher> fireLuncherPool;//Это для неактивных
+    static ArrayList<FireLuncher> activFireLunchers = new ArrayList<FireLuncher>();
     Texture img;
-    int posX;
-    int posY;
+    double posX;
+    double posY;
 
     //!!Обьекты еще не удаляются, нужен таймер и функция Deactivate
-    public Bullet()
+    public FireLuncher()
     {
         img = new Texture("bullet.png");
         posX = MyGdxGame.starShip.getX();
@@ -33,21 +30,21 @@ public class Bullet {
         return img;
     }
 
-    public void SetPos(int x, int y)
+    public void SetPos(double x, double y)
     {
         posX = x;
         posY = y;
     }
-    public int GetPosX()
+    public double GetPosX()
     {
         return posX;
     }
-    public int GetPosY()
+    public double GetPosY()
     {
         return posY;
     }
     //Это увеличит позицию
-    public  void Translate(int x, int y)
+    public  void Translate(double x, double y)
     {
         posX += x;
         posY += y;
@@ -56,58 +53,58 @@ public class Bullet {
     //Инициализируем
     public static void Start()
     {
-        bulletPool = new Stack<Bullet>();
+        fireLuncherPool = new Stack<FireLuncher>();
 
-        for(int i = 0; i<1000; i++)//пока нет нормального пула
+        for(double i = 0; i<1000; i++)//пока нет нормального пула
         {
-            Bullet P = new Bullet();
-            bulletPool.push(P);
+            FireLuncher P = new FireLuncher();
+            fireLuncherPool.push(P);
         }
     }
 
     public static void Update()
     {
-        for (Bullet i:activBullets ) {
+        for (FireLuncher i: activFireLunchers) {
             i.Translate(0,15);
         }
     }
 
     public static void DrawBullets(SpriteBatch batch)
     {
-        for (Bullet P:activBullets ) {
-            batch.draw(P.img, P.posX, P.posY);
+        for (FireLuncher P: activFireLunchers) {
+            batch.draw(P.img, (int)P.posX, (int)P.posY);
         }
     }
 
     //Это создаст новый снаряд, и поместит его в стек
-    static Bullet Instance()
+    static FireLuncher Instance()
     {
-        Bullet P = new Bullet();
-        bulletPool.push(P);
+        FireLuncher P = new FireLuncher();
+        fireLuncherPool.push(P);
         return  P;
     }
 
     //Это возвратит незаенятый элемент типа баллэт
-    static Bullet GetInnactiveBullet()
+    static FireLuncher GetInnactiveBullet()
     {
-        if(bulletPool.empty()) {
+        if(fireLuncherPool.empty()) {
             return Instance();
         }
         else
-            return bulletPool.pop();
+            return fireLuncherPool.pop();
     }
 
     //Это активирует один буллет из списка
-    static Bullet ActivateBullet()
+    static FireLuncher ActivateBullet()
     {
-        Bullet P = GetInnactiveBullet();
-        activBullets.add(P);
+        FireLuncher P = GetInnactiveBullet();
+        activFireLunchers.add(P);
         return P;
     }
 
-    public static Bullet shot()
+    public static FireLuncher shot()
     {
-            Bullet P = ActivateBullet();
+            FireLuncher P = ActivateBullet();
             P.SetPos(MyGdxGame.starShip.getX()+32, MyGdxGame.starShip.getY()+156);//тут добавляем для того чтобы выровнять по кораблю
             return P;
     }
