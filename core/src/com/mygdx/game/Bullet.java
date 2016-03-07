@@ -1,8 +1,10 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.utils.TimeUtils;
 //import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.util.ArrayList;
@@ -17,7 +19,8 @@ public class Bullet {
     Texture img;
     int posX;
     int posY;
-//!!Обьекты еще не удаляются, нужен таймер и функция Deactivate
+
+    //!!Обьекты еще не удаляются, нужен таймер и функция Deactivate
     public Bullet()
     {
         img = new Texture("bullet.png");
@@ -61,7 +64,7 @@ public class Bullet {
     {
         for (int i = 0;i<activBullets.size();i++)
         {
-            activBullets.get(i).Translate(0,1);
+            activBullets.get(i).Translate(0,4);
         }
 
     }
@@ -103,9 +106,10 @@ public class Bullet {
 
     public static Bullet shot()
     {
-        Bullet P = ActivateBullet();
-        P.SetPos(MyGdxGame.starShip.getX(), MyGdxGame.starShip.getY());
-        return  P;
+            Bullet P = ActivateBullet();
+            P.SetPos(MyGdxGame.starShip.getX()+32, MyGdxGame.starShip.getY()+156);//тут добавляем для того чтобы выровнять по кораблю
+            return P;
+
     }
 }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.sun.corba.se.impl.oa.poa.ActiveObjectMap;
 
 import java.util.Iterator;
@@ -16,6 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture alienImg;
 	int round = 0;
 	MapManager mapManager = new MapManager();
+	static long lastShot = 0;//для таймера
 
 	public static StarShip starShip;
 	
@@ -59,12 +61,30 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+	void Shoot()
+	{
+		long T = TimeUtils.millis();
+
+		System.out.println(T +"-"+lastShot);
+
+		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && (T - 100>lastShot))
+			{
+				Bullet.shot();
+				lastShot=T;
+			}
+			//else
+			{
+				//lastShot += 10;
+			}
+
+		}
+
 	//Это вызывается каждый кадр из рендера формы(после)
 	void Update()
 	{
 		starShip.setX(Gdx.input.getX());
 
-		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))Bullet.shot();
+		Shoot();
 
 		AlienShip.setDeltaX(Math.sin(Math.toRadians(round)) * 100);
 		AlienShip.setDeltaY(Math.cos(Math.toRadians(round)) * 50);
