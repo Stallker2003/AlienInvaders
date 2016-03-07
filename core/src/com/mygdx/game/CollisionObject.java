@@ -4,15 +4,17 @@ package com.mygdx.game;
  * Заготовка под обьекты которые могут сталкиваться
  */
 public abstract class CollisionObject {
-    double width;
-    double height;
-    double radius;
-    boolean isAlive;
+    private double width;
+    private double height;
+    private double radius;
+    private boolean isAlive;
+    private int healthDamage;
+    private String name;
 
-    public CollisionObject(double width, double height) {
+    public CollisionObject(double width, double height, String name) {
         this.width = width;
         this.height = height;
-
+        this.name = name;
         isAlive = true;
 
         width = width / 2;
@@ -28,6 +30,14 @@ public abstract class CollisionObject {
     abstract public double getHealth();
 
     abstract public void setHealth(double health);
+
+    public void setHealthDamage(int healthDamage) {
+        this.healthDamage = healthDamage;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public boolean isAlive() {
         return isAlive;
@@ -46,23 +56,25 @@ public abstract class CollisionObject {
     }
 
     public double getCollisionDamage() {
-        return this.getHealth();
+        if(healthDamage == 0 )return this.getHealth();
+        return healthDamage;
     }
-
     
     public double getProximityRadius() {
         return radius;
     }
 
     public boolean detectProximity(CollisionObject obj) {
-        double dist = Math.abs((obj.getX() - this.getX()) / (obj.getY() - this.getY()));
-        return dist < obj.getProximityRadius() + this.getProximityRadius();
+
+        double divX = obj.getX() - this.getX();
+        double divY = obj.getY() - this.getY();
+        double dist = Math.sqrt(divX * divX + divY * divY);
+        return ( dist < obj.getProximityRadius() + this.getProximityRadius() );
     }
     
     public boolean detectCollision(CollisionObject obj) {
         Point [] arr1 = this.getCollisionModel();
         Point [] arr2 = obj.getCollisionModel();
-        System.out.println("Detecting Collision");
         return true;
     }
     

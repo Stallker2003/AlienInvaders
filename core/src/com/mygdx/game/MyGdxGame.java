@@ -19,6 +19,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	MapManager mapManager = MapManager.getManeger();
 	static long lastShot = 0;//для таймера
 	AlienFormation alienFormation = new AlienFormation();
+	CollisionDetection detector = CollisionDetection.getSingleton();
+	FireLuncher fireLuncher = FireLuncher.singleton();
 
 	static StarShip starShip;
 	
@@ -29,10 +31,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		alienImg = new Texture("AlienShipSmall.png");
 
-		starShip = new StarShip(10, 0, 0);
+		starShip = new StarShip(10, 0, 20);
 		mapManager.addShip(starShip);
 
-		FireLuncher.Start();//!!это мне не нравиться тут
+		fireLuncher.setPlayer(starShip);
+
+		FireLuncher.singleton().setImg(new Texture("bullet.png"));
+		//FireLuncher.Start();//!!это мне не нравиться тут
 
 		for(int i = 0 ; i < alienFormation.getMax() ;i++) {
 			Point point = alienFormation.getFormation(i);
@@ -51,7 +56,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		while (iterator.hasNext()){
 			StarShip alien = iterator.next();
-			batch.draw(alien.getImg(),(int)alien.getX(),(int)alien.getY());
+			if(alien.isAlive()) batch.draw(alien.getImg(),(int)alien.getImgPosX(),(int)alien.getImgPosY());
 		}
 
 		FireLuncher.DrawBullets(batch);//!!это мне не нравиться тут
@@ -69,7 +74,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) ) && (T  > lastShot + 100))
 		{
-			FireLuncher.shot();
+			FireLuncher.singleton().shot();
 			lastShot=T;
 		}
 	}
@@ -93,8 +98,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			alien.move();
 		}
 
+
 		Point relativePos = new Point(Math.sin(Math.toRadians(round)) * 100 + 200,Math.cos(Math.toRadians(round)) * 50 + 500);
 		alienFormation.setPosition(relativePos);
+
+		detector.checkCollisions();
 
 		round++;
 		if(round > 360) round = 0;

@@ -20,7 +20,7 @@ public class StarShip extends CollisionObject{
     Texture img;
 
     public StarShip(double health, double x, double y, Texture img, Integer pos) {
-        super(img.getWidth(),img.getHeight());
+        super(img.getWidth(),img.getHeight(), "StarShip" + pos);
         this.health = health;
         this.x = x;
         this.y = y;
@@ -34,8 +34,18 @@ public class StarShip extends CollisionObject{
         this.destY = y;
     }
 
+    public double getImgPosX(){
+        return this.getX() - img.getWidth() / 2;
+    }
+
+    public double getImgPosY(){
+        return this.getY() - img.getHeight() / 2;
+    }
+
     public StarShip(double health, double x, double y) {
-        this(health, x, y, new Texture("SpaceShipSmall.png"),null);
+        this(health, x, y, new Texture("PlayerShipSmall.png"),null);
+        this.x = this.x + img.getWidth() / 2;
+        this.y = this.y + img.getHeight() / 2;
     }
 
     public void move(){ move(0.1);}
