@@ -10,6 +10,7 @@ import java.util.List;
 public class AlienFormation {
     List<Point> list = new ArrayList<Point>();
     Point relPosition;
+    int round = 0;
 
     AlienFormation() {
         relPosition = new Point(200,600);
@@ -24,11 +25,18 @@ public class AlienFormation {
 
     public Point getFormation(int position){
         Point p = new Point(list.get(position));
+        Point wave = waveX(p.getX());
 
-        p.setX(p.getX() +  relPosition.getX());
-        p.setY(p.getY() +  relPosition.getY());
+        p.setX(p.getX() +  relPosition.getX() + wave.getX());
+        p.setY(p.getY() +  relPosition.getY() + wave.getY());
 
         return p;
+    }
+
+    private Point waveX(double x){
+        round ++;
+        if (round > 360) round = 0;
+        return new Point( 0 , Math.sin(Math.toRadians(x + round)) * 5  );
     }
 
     private int getX(int i){
