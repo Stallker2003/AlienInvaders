@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +17,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	int round = 0;
 	MapManager mapManager = new MapManager();
 
-	StarShip starShip;
+	public static StarShip starShip;
 	
 	@Override
 	public void create () {
@@ -27,6 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		starShip = new StarShip(10, 0, 0);
 		mapManager.add(starShip);
+
+		Bullet.Start();//!!это мне не нравиться тут
 
 		for(int i = 0 ; i < 10 ;i++) {
 			mapManager.add(new AlienShip(50, 100 * i , 500 + (i % 3) * 50,alienImg));
@@ -47,9 +50,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.draw(alien.getImg(),alien.getX(),alien.getY());
 		}
 
+		Bullet.DrawBullets(batch);//!!это мне не нравиться тут
+
 		batch.end();
 
 		Update();
+		Bullet.Update();//!!это мне не нравиться тут + как насчет разной производительности ПК? Вопрос -пстоянны ли ФПС
 
 	}
 
@@ -57,6 +63,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	void Update()
 	{
 		starShip.setX(Gdx.input.getX());
+
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))Bullet.shot();
 
 		AlienShip.setDeltaX(Math.sin(Math.toRadians(round)) * 100);
 		AlienShip.setDeltaY(Math.cos(Math.toRadians(round)) * 50);
