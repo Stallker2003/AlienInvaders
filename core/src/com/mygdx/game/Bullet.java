@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- * Created by Дима on 07.03.2016.
+ * Этот класс управляет созданием пуль
  */
 public class Bullet {
     static java.util.Stack<Bullet> bulletPool;//Это для неактивных
-    static ArrayList<Bullet> activBullets;
+    static ArrayList<Bullet> activBullets = new ArrayList<Bullet>();
     Texture img;
     int posX;
     int posY;
@@ -57,7 +57,6 @@ public class Bullet {
     public static void Start()
     {
         bulletPool = new Stack<Bullet>();
-        activBullets = new ArrayList<Bullet>();
 
         for(int i = 0; i<1000; i++)//пока нет нормального пула
         {
@@ -68,18 +67,14 @@ public class Bullet {
 
     public static void Update()
     {
-        for (int i = 0;i<activBullets.size();i++)
-        {
-            activBullets.get(i).Translate(0,15);
+        for (Bullet i:activBullets ) {
+            i.Translate(0,15);
         }
-
     }
 
     public static void DrawBullets(SpriteBatch batch)
     {
-        for (int i = 0;i<activBullets.size();i++)
-        {
-            Bullet P = activBullets.get(i);
+        for (Bullet P:activBullets ) {
             batch.draw(P.img, P.posX, P.posY);
         }
     }
@@ -115,7 +110,6 @@ public class Bullet {
             Bullet P = ActivateBullet();
             P.SetPos(MyGdxGame.starShip.getX()+32, MyGdxGame.starShip.getY()+156);//тут добавляем для того чтобы выровнять по кораблю
             return P;
-
     }
 }
 

@@ -20,7 +20,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	static long lastShot = 0;//для таймера
 	AlienFormation alienFormation = new AlienFormation();
 
-	StarShip starShip;
+	static StarShip starShip;
 	
 	@Override
 	public void create () {
@@ -67,18 +67,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	{
 		long T = TimeUtils.millis();
 
-		System.out.println(T +"-"+lastShot);
-
-		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && (T - 100>lastShot))
-			{
-				Bullet.shot();
-				lastShot=T;
-			}
-			//else
-			{
-				//lastShot += 10;
-			}
-
+		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) ) && (T  > lastShot + 100))
+		{
+			Bullet.shot();
+			lastShot=T;
+		}
 	}
 
 	//Это вызывается каждый кадр из рендера формы(после)
