@@ -12,18 +12,21 @@ import java.util.Iterator;
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	Texture fly;
 	Texture alienImg;
-	int n = 1;
 	int round = 0;
 	MapManager mapManager = new MapManager();
+
+	StarShip starShip;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("Background.jpg");
-		fly = new Texture("SpaceShipSmall.png");
+
 		alienImg = new Texture("AlienShipSmall.png");
+
+		starShip = new StarShip(10, 0, 0);
+		mapManager.add(starShip);
 
 		for(int i = 0 ; i < 10 ;i++) {
 			mapManager.add(new AlienShip(50, 100 * i , 500 + (i % 3) * 50,alienImg));
@@ -36,9 +39,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, -500, 0);
-		batch.draw(fly, 500+n, 77);
 
-		Iterator<StarShip> iterator = mapManager.iterator();
+		Iterator<StarShip> iterator = mapManager.iterator();//?
+
 		while (iterator.hasNext()){
 			StarShip alien = iterator.next();
 			batch.draw(alien.getImg(),alien.getX(),alien.getY());
@@ -53,8 +56,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	//Это вызывается каждый кадр из рендера формы(после)
 	void Update()
 	{
-		if(Gdx.input.getX()>Gdx.graphics.getWidth()/2)n++;
-		if(Gdx.input.getX()<Gdx.graphics.getWidth()/2)n--;
+		starShip.setX(Gdx.input.getX());
 
 		AlienShip.setDeltaX(Math.sin(Math.toRadians(round)) * 100);
 		AlienShip.setDeltaY(Math.cos(Math.toRadians(round)) * 50);

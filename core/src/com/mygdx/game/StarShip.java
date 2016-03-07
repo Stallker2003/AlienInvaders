@@ -22,6 +22,15 @@ public class StarShip {
         this.health = img.getHeight();
     }
 
+    public StarShip(int health, int x, int y) {
+        this.health = health;
+        this.x = x;
+        this.y = y;
+        this.img =  new Texture("SpaceShipSmall.png");
+        this.width =  img.getWidth();
+        this.health = img.getHeight();
+    }
+
     public int getHealth() {
         return health;
     }
