@@ -58,13 +58,19 @@ public class Bullet {
     {
         bulletPool = new Stack<Bullet>();
         activBullets = new ArrayList<Bullet>();
+
+        for(int i = 0; i<1000; i++)//пока нет нормального пула
+        {
+            Bullet P = new Bullet();
+            bulletPool.push(P);
+        }
     }
 
     public static void Update()
     {
         for (int i = 0;i<activBullets.size();i++)
         {
-            activBullets.get(i).Translate(0,4);
+            activBullets.get(i).Translate(0,15);
         }
 
     }
