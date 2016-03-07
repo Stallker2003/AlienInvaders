@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Texture alienImg;
 	int round = 0;
 	MapManager mapManager = new MapManager();
-	AlienFormation alienFormation = new AlienFormation();
+	static long lastShot = 0;//для таймера
 
 	StarShip starShip;
 	
@@ -28,6 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		starShip = new StarShip(10, 0, 0);
 		mapManager.add(starShip);
+
+		Bullet.Start();//!!это мне не нравиться тут
 
 		for(int i = 0 ; i < alienFormation.getMax() ;i++) {
 			Point point = alienFormation.getFormation(i);
@@ -43,14 +45,36 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(img, -500, 0);
 
 		Iterator<StarShip> iterator = mapManager.iterator();//?
+
 		while (iterator.hasNext()){
 			StarShip alien = iterator.next();
 			batch.draw(alien.getImg(),alien.getX(),alien.getY());
 		}
 
+		Bullet.DrawBullets(batch);//!!это мне не нравиться тут
+
 		batch.end();
 
 		Update();
+		Bullet.Update();//!!это мне не нравиться тут + как насчет разной производительности ПК? Вопрос -пстоянны ли ФПС
+
+	}
+
+	void Shoot()
+	{
+		long T = TimeUtils.millis();
+
+		System.out.println(T +"-"+lastShot);
+
+		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && (T - 100>lastShot))
+			{
+				Bullet.shot();
+				lastShot=T;
+			}
+			//else
+			{
+				//lastShot += 10;
+			}
 
 	}
 
@@ -58,6 +82,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	void Update()
 	{
 		starShip.setX(Gdx.input.getX());
+
+		Shoot();
 
 		Iterator<StarShip> iterator = mapManager.iterator();//?
 		while (iterator.hasNext()){
@@ -72,12 +98,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		Point relativePos = new Point(Math.sin(Math.toRadians(round)) * 100 + 200,Math.cos(Math.toRadians(round)) * 50 + 500);
-		//System.out.println("Destination X: " + relativePos.getX() + " Y: " + relativePos.getY());
 		alienFormation.setPosition(relativePos);
 
 		round++;
-		if(round > 360) {
-			round = 0;
-		}
+		if(round > 360) round = 0;
 	}
 }
