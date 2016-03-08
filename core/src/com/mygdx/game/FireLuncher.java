@@ -60,6 +60,7 @@ public class FireLuncher {
     {
         return posY;
     }
+
     public static void Update()
     {
         Iterator<FireObject> i = mapManager.fireIterator();
@@ -80,10 +81,12 @@ public class FireLuncher {
         }
     }
 
-    public void shot()
+    public FireObject shot()
     {
         updatePlayerPosition();
-        mapManager.addFire(new FireObject(posX,posY + playerShip.getImg().getHeight(),1,img,5));
+        FireObject P = new FireObject(posX,posY + playerShip.getImg().getHeight(),1,img,5);
+        mapManager.addFire(P);
+        return P;
     }
 }
 

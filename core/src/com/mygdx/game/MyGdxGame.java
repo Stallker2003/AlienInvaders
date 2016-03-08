@@ -74,7 +74,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) ) && (T  > lastShot + 100))
 		{
-			FireLuncher.singleton().shot();
+		    FireObject P =	FireLuncher.singleton().shot();
+			P.SetVelocity(0,15);
 			lastShot=T;
 		}
 	}

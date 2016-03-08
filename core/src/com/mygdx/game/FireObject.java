@@ -13,6 +13,8 @@ public class FireObject extends CollisionObject {
     double health;
     static int id = 0;
     Texture img;
+    int velocityX = 0;//Вектор, куда летит обьект
+    int velocityY = 0;
 
     FireObject(double x, double y, double health, Texture img){
         this(x,y,health,img,1);
@@ -59,7 +61,14 @@ public class FireObject extends CollisionObject {
         this.health = health;
     }
 
+    public void SetVelocity(int velocityX, int velocityY)
+    {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
+    }
+
     public void move(){
-        y += 15;
+        y += velocityY;
+        x +=velocityX;
     }
 }

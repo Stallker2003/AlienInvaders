@@ -43,7 +43,7 @@ public class StarShip extends CollisionObject{
     }
 
     public StarShip(double health, double x, double y) {
-        this(health, x, y, new Texture("PlayerShipSmall.png"),null);
+        this(health, x, y, new Texture("SpaceShipSmall.png"),null);
         this.x = this.x + img.getWidth() / 2;
         this.y = this.y + img.getHeight() / 2;
     }
